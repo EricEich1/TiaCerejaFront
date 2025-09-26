@@ -1,11 +1,20 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './shared/layout/layout.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
+  // Rota de login (pública)
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  // Rotas protegidas (requerem autenticação)
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -39,8 +48,9 @@ export const routes: Routes = [
       // }
     ]
   },
+  // Redirecionamento padrão para login
   {
     path: '**',
-    redirectTo: '/dashboard'
+    redirectTo: '/login'
   }
 ];

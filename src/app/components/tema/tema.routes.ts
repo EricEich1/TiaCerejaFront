@@ -16,3 +16,4 @@ export const temaRoutes: Routes = [
     component: TemaFormComponent
   }
 ];
+

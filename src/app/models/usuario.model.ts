@@ -1,7 +1,7 @@
 export interface Usuario {
   id?: number;
   email: string;
-  senha: string;
+  senha?: string; // Senha opcional após login
   nome?: string;
   role?: string;
 }
@@ -16,3 +16,4 @@ export interface LoginResponse {
   usuario: Usuario;
   message?: string;
 }
+

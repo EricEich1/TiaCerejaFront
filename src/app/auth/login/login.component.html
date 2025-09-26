@@ -1,3 +1,6 @@
+
+
+
 <div class="login-container">
   <div class="login-card scale-up">
     <div class="login-header">
@@ -17,6 +20,7 @@
           id="email" 
           class="form-control" 
           [(ngModel)]="credentials.email" 
+          (input)="onEmailChange($event)"
           name="email"
           required
           email
@@ -33,6 +37,7 @@
           id="senha" 
           class="form-control" 
           [(ngModel)]="credentials.senha" 
+          (input)="onSenhaChange($event)"
           name="senha"
           required
           placeholder="Digite sua senha">
@@ -51,6 +56,31 @@
           Entrando...
         </span>
       </button>
+      
+      <!-- Botões de teste temporários -->
+      <div class="d-flex gap-2 mt-2 flex-wrap">
+        <button 
+          type="button" 
+          class="btn btn-secondary btn-sm"
+          (click)="testFormData()">
+          <i class="fas fa-bug me-1"></i>
+          Testar Dados
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-info btn-sm"
+          (click)="testHttpRequest()">
+          <i class="fas fa-network-wired me-1"></i>
+          Testar HTTP
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-warning btn-sm"
+          (click)="criarAdmin()">
+          <i class="fas fa-user-plus me-1"></i>
+          Criar Admin
+        </button>
+      </div>
     </form>
     
     <div class="login-footer">
