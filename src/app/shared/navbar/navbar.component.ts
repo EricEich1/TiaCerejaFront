@@ -1,68 +1,53 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Usuario } from '../../models/usuario.model';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  currentUser: Usuario | null = null;
+  
+  isLoggedIn = false;
 
   constructor(
-    private authService: AuthService,
-    private router: Router
+    private router: Router,
+    public authService: AuthService // Deixe como public para usar no HTML
   ) {}
 
-  ngOnInit() {
-    // Observar mudanças no usuário atual
-    this.authService.currentUser$.subscribe(user => {
-      this.currentUser = user;
+  ngOnInit(): void {
+    // Escuta as mudanças no status de login
+    this.authService.isLoggedIn().subscribe(status => {
+      this.isLoggedIn = status;
     });
+  }
+
+  navigateTo(path: string) {
+    this.router.navigate([path]);
   }
 
   logout() {
     Swal.fire({
-      title: 'Sair do sistema?',
-      text: 'Tem certeza que deseja fazer logout?',
-      icon: 'question',
+      title: 'Você tem certeza?',
+      text: "Você será desconectado da sua sessão.",
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
       confirmButtonText: 'Sim, sair!',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.authService.logout().subscribe({
-          next: () => {
-            this.router.navigate(['/login']);
-            Swal.fire({
-              icon: 'success',
-              title: 'Logout realizado!',
-              text: 'Você foi desconectado com sucesso.',
-              timer: 1500,
-              showConfirmButton: false
-            });
-          },
-          error: (error) => {
-            console.error('Erro no logout:', error);
-            // Mesmo com erro no backend, limpar localmente
-            this.router.navigate(['/login']);
-            Swal.fire({
-              icon: 'warning',
-              title: 'Logout realizado',
-              text: 'Você foi desconectado (erro na comunicação com o servidor).',
-              timer: 1500,
-              showConfirmButton: false
-            });
-          }
-        });
+        this.authService.logout(); // Apenas chama o logout
+        this.router.navigate(['/login']); // Redireciona para o login
+        Swal.fire(
+          'Desconectado!',
+          'Você saiu da sua conta com sucesso.',
+          'success'
+        )
       }
-    });
+    })
   }
 }
