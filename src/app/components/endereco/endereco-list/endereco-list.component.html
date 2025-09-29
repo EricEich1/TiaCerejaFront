@@ -41,7 +41,7 @@
       <i class="fas fa-map-marker-alt empty-icon"></i>
       <h3>Nenhum endereço encontrado</h3>
       <p *ngIf="termoBusca">Nenhum endereço corresponde aos critérios de busca.</p>
-      <p *ngIf="!termoBusca">Comece adicionando seu primeiro endereço.</p>
+      <p *ngIf="!termoBusca" class="mb-3">Comece adicionando seu primeiro endereço.</p>
       <a *ngIf="!termoBusca" routerLink="/enderecos/novo" class="btn btn-primary">
         <i class="fas fa-plus me-2"></i>
         Adicionar Endereço
