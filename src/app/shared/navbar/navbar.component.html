@@ -53,17 +53,25 @@
       </ul>
 
       <ul class="navbar-nav">
-        <li class="nav-item dropdown" *ngIf="isLoggedIn"> <a class="nav-link dropdown-toggle" href="#" role="button"
-            data-bs-toggle="dropdown">
+        <li class="nav-item dropdown" *ngIf="isLoggedIn">
+          <a class="nav-link dropdown-toggle" role="button" 
+             data-bs-toggle="dropdown" aria-expanded="false" 
+             (click)="$event.preventDefault()">
             <i class="fas fa-user me-1"></i>
-            Usuário Logado
+            {{ getUserDisplayName() }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Perfil</a></li>
-            <li>
-              <hr class="dropdown-divider">
+            <li class="dropdown-header">
+              <div class="d-flex flex-column">
+                <span class="fw-bold">{{ getUserDisplayName() }}</span>
+                <small class="text-muted">{{ currentUser?.email }}</small>
+              </div>
             </li>
-            <li><a class="dropdown-item text-danger" href="#" (click)="logout()"><i
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" (click)="$event.preventDefault()"><i class="fas fa-user me-2"></i>Perfil</a></li>
+            <li><a class="dropdown-item" (click)="$event.preventDefault()"><i class="fas fa-cog me-2"></i>Configurações</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" (click)="logout(); $event.preventDefault()"><i
                   class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
           </ul>
         </li>

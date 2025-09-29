@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { Usuario } from '../../models/usuario.model';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
+  imports: [CommonModule, RouterLink, RouterLinkActive]
 })
 export class NavbarComponent implements OnInit {
   
   isLoggedIn = false;
+  currentUser: Usuario | null = null;
 
   constructor(
     private router: Router,
@@ -22,10 +26,29 @@ export class NavbarComponent implements OnInit {
     this.authService.isLoggedIn().subscribe(status => {
       this.isLoggedIn = status;
     });
+
+    // Escuta as mudanças nos dados do usuário
+    this.authService.getCurrentUser().subscribe(user => {
+      this.currentUser = user;
+    });
+
+    // Verificar dados iniciais
+    const initialUser = this.authService.getCurrentUserValue();
+    if (initialUser) {
+      this.currentUser = initialUser;
+    }
   }
 
   navigateTo(path: string) {
     this.router.navigate([path]);
+  }
+
+  // Método para obter o nome de exibição do usuário
+  getUserDisplayName(): string {
+    if (!this.currentUser) return 'Usuário Logado';
+    
+    // Prioriza o nome se disponível, senão usa o email
+    return this.currentUser.nome || this.currentUser.email || 'Usuário Logado';
   }
 
   logout() {
