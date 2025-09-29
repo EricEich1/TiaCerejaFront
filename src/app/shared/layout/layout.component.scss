@@ -7,8 +7,15 @@
 .main-content {
   flex: 1;
   padding: 2rem;
+  padding-top: 6.5rem; // Compensar altura do navbar fixed (80px + padding)
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  
+  // Responsividade para mobile
+  @media (max-width: 768px) {
+    padding: 1rem;
+    padding-top: 7rem; // Mais espaço no mobile devido ao navbar colapsado
+  }
 }
 

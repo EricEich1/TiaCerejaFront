@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-  baseUrl: 'http://localhost:8081',
+  baseUrl: 'http://localhost:8080',
   endpoints: {
     // Autenticação
     auth: {

@@ -15,7 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
         const token = this.authService.getToken();
-        const isApiUrl = request.url.startsWith('http://localhost:8081/api/');
+        const isApiUrl = request.url.startsWith('http://localhost:8080/api/');
 
         // Só adiciona o token se a requisição for para a nossa API e não for para o login/registro
         if (token && isApiUrl && !request.url.includes('/auth/')) {
