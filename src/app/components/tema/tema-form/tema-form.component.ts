@@ -19,7 +19,7 @@ export class TemaFormComponent implements OnInit {
     corPrincipal: '#667eea',
     corSecundaria: '#764ba2',
     ativo: true,
-    precoBase: 0
+    precoBase: undefined
   };
 
   isEdit = false;
@@ -123,6 +123,10 @@ export class TemaFormComponent implements OnInit {
         }
       });
     }
+  }
+
+  onColorChange() {
+    // Método para atualizar preview quando cores mudam
   }
 
   validarFormulario(): boolean {

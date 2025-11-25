@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LoginRequest, LoginResponse, Usuario } from '../models/usuario.model';
-import { API_CONFIG } from '../shared/api.config';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly loginUrl = `${API_CONFIG.baseUrl}/api/auth/login`;
-  private readonly registerUrl = `${API_CONFIG.baseUrl}/api/auth/registrar`;
+  private readonly loginUrl = environment.SERVIDOR + '/api/auth/login';
+  private readonly registerUrl = environment.SERVIDOR + '/api/auth/registrar';
 
   // Este BehaviorSubject vai "transmitir" o status de login para quem quiser ouvir (como a Navbar)
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());

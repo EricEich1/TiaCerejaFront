@@ -5,6 +5,7 @@ import { ClienteService } from '../services/cliente.service';
 import { EnderecoService } from '../services/endereco.service';
 import { TemaFestaService } from '../services/tema-festa.service';
 import { TipoEventoService } from '../services/tipo-evento.service';
+import { NotificationService } from '../services/notification.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -25,7 +26,8 @@ export class DashboardComponent implements OnInit {
     private clienteService: ClienteService,
     private enderecoService: EnderecoService,
     private temaFestaService: TemaFestaService,
-    private tipoEventoService: TipoEventoService
+    private tipoEventoService: TipoEventoService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -41,6 +43,7 @@ export class DashboardComponent implements OnInit {
       error: (error) => {
         console.error('Erro ao carregar clientes:', error);
         this.stats.clientes = 0;
+        this.notificationService.warning('Aviso', 'Não foi possível carregar todos os dados do dashboard.');
       }
     });
 

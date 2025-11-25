@@ -1,34 +1,42 @@
 .tema-form-container {
-  padding: 2rem;
-  max-width: 800px;
+  padding: 2rem 0;
+  max-width: 900px;
   margin: 0 auto;
 }
 
 .tema-form-header {
   margin-bottom: 2rem;
-  text-align: center;
-}
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
 
-.tema-form-title {
-  color: #2c3e50;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  
-  i {
-    color: #667eea;
+  .tema-form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--apple-dark-gray);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    
+    i {
+      color: var(--apple-blue);
+      font-size: 1.75rem;
+    }
   }
-}
 
-.tema-form-subtitle {
-  color: #6c757d;
-  font-size: 1.1rem;
-  margin: 0;
+  .tema-form-subtitle {
+    color: var(--apple-light-gray);
+    font-size: 1rem;
+    margin: 0;
+  }
 }
 
 .tema-form-content {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
   padding: 2rem;
 }
 
@@ -67,18 +75,130 @@
   }
 }
 
-.form-control-color {
+// Color Input
+.color-input-wrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.color-picker {
   width: 60px;
-  height: 40px;
+  height: 50px;
   padding: 0;
-  border: 2px solid #e9ecef;
-  border-radius: 8px;
+  border: 2px solid #E5E5EA;
+  border-radius: 12px;
   cursor: pointer;
+  transition: all 0.25s ease;
+  
+  &:hover {
+    border-color: var(--apple-blue);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+  }
   
   &:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    outline: none;
+    border-color: var(--apple-blue);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
   }
+}
+
+.color-display {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #f8f9fa;
+  border: 1px solid #E5E5EA;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+
+  &:focus-within {
+    border-color: var(--apple-blue);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+  }
+}
+
+.color-preview {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.color-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--apple-dark-gray);
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+// Preview Section
+.preview-section {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.theme-preview {
+  height: 250px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: var(--shadow-md);
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.preview-content {
+  text-align: center;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.preview-icon-large {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.preview-name {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.preview-desc {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.95;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+}
+
+.preview-desc-placeholder {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  font-style: italic;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .input-group {
@@ -177,9 +297,35 @@
   .tema-form-container {
     padding: 1rem;
   }
+
+  .tema-form-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
   
   .tema-form-content {
     padding: 1.5rem;
+  }
+
+  .color-input-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .color-display {
+    width: 100%;
+  }
+
+  .theme-preview {
+    height: 200px;
+  }
+
+  .preview-icon-large {
+    font-size: 2.5rem;
+  }
+
+  .preview-name {
+    font-size: 1.5rem;
   }
   
   .form-actions {

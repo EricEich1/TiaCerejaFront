@@ -1,0 +1,152 @@
+.toast-container {
+  position: fixed;
+  top: 100px;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 400px;
+  width: 100%;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  pointer-events: auto;
+  animation: slideInRight 0.3s ease-out;
+  border-left: 4px solid;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    transform: translateX(-4px);
+  }
+
+  &.toast-success {
+    border-left-color: #28a745;
+    
+    .toast-icon {
+      color: #28a745;
+    }
+  }
+
+  &.toast-error {
+    border-left-color: #dc3545;
+    
+    .toast-icon {
+      color: #dc3545;
+    }
+  }
+
+  &.toast-warning {
+    border-left-color: #ffc107;
+    
+    .toast-icon {
+      color: #ffc107;
+    }
+  }
+
+  &.toast-info {
+    border-left-color: #17a2b8;
+    
+    .toast-icon {
+      color: #17a2b8;
+    }
+  }
+}
+
+.toast-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.toast-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--apple-dark-gray);
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.toast-message {
+  font-size: 0.85rem;
+  color: var(--apple-light-gray);
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: var(--apple-light-gray);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-top: -0.25rem;
+  margin-right: -0.25rem;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--apple-dark-gray);
+  }
+
+  i {
+    font-size: 0.75rem;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .toast-container {
+    right: 1rem;
+    left: 1rem;
+    max-width: 100%;
+    top: 80px;
+  }
+
+  .toast {
+    padding: 0.875rem 1rem;
+  }
+
+  .toast-title {
+    font-size: 0.9rem;
+  }
+
+  .toast-message {
+    font-size: 0.8rem;
+  }
+}
+

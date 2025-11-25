@@ -35,30 +35,69 @@
             Temas
           </a>
         </li>
-        <!-- TODO: Adicionar outros links quando os componentes estiverem prontos -->
-        <!--
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/solicitacoes" routerLinkActive="active">
-            <i class="fas fa-file-invoice me-1"></i>
-            Solicitações
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/tipos-evento" routerLinkActive="active">
-            <i class="fas fa-calendar-alt me-1"></i>
-            Tipos de Evento
-          </a>
-        </li>
-        -->
       </ul>
 
-      <ul class="navbar-nav">
+      <!-- Barra de Busca -->
+      <div class="search-container" *ngIf="isLoggedIn">
+        <div class="search-wrapper">
+          <i class="fas fa-search search-icon"></i>
+          <input 
+            type="text" 
+            class="search-input" 
+            [(ngModel)]="termoBusca"
+            (input)="onBuscaChange()"
+            (focus)="onBuscaFocus()"
+            (blur)="onBuscaBlur()"
+            placeholder="Buscar clientes, temas..."
+            autocomplete="off">
+          <button 
+            class="search-clear" 
+            *ngIf="termoBusca"
+            (click)="limparBusca()"
+            type="button">
+            <i class="fas fa-times"></i>
+          </button>
+          <div class="search-spinner" *ngIf="buscando">
+            <i class="fas fa-spinner fa-spin"></i>
+          </div>
+        </div>
+        
+        <!-- Dropdown de Resultados -->
+        <div class="search-results" *ngIf="mostrarResultados && resultados.length > 0">
+          <div 
+            class="search-result-item" 
+            *ngFor="let resultado of resultados"
+            (click)="selecionarResultado(resultado)">
+            <div class="result-icon">
+              <i class="fas" [ngClass]="resultado.tipo === 'cliente' ? 'fa-user' : 'fa-palette'"></i>
+            </div>
+            <div class="result-content">
+              <div class="result-title">{{ resultado.titulo }}</div>
+              <div class="result-subtitle" *ngIf="resultado.subtitulo">{{ resultado.subtitulo }}</div>
+            </div>
+            <div class="result-type">
+              <span class="badge" [ngClass]="resultado.tipo === 'cliente' ? 'badge-cliente' : 'badge-tema'">
+                {{ resultado.tipo === 'cliente' ? 'Cliente' : 'Tema' }}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="search-results search-empty" *ngIf="mostrarResultados && resultados.length === 0 && !buscando && termoBusca.length >= 2">
+          <div class="search-empty-message">
+            <i class="fas fa-search"></i>
+            <p>Nenhum resultado encontrado</p>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown" *ngIf="isLoggedIn">
           <a class="nav-link dropdown-toggle" role="button" 
              data-bs-toggle="dropdown" aria-expanded="false" 
              (click)="$event.preventDefault()">
             <i class="fas fa-user me-1"></i>
-            {{ getUserDisplayName() }}
+            <span class="user-name">{{ getUserDisplayName() }}</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li class="dropdown-header">

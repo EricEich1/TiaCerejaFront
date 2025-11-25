@@ -2,49 +2,42 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TemaFesta, TemaFestaRequest } from '../models/tema-festa.model';
-import { API_CONFIG } from '../shared/api.config';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TemaFestaService {
-  private readonly baseUrl = `${API_CONFIG.baseUrl}/api/temas`;
+  API = environment.SERVIDOR + '/api/temas';
 
   constructor(private http: HttpClient) { }
 
-  // Buscar todos os temas
   buscarTodos(): Observable<TemaFesta[]> {
-    return this.http.get<TemaFesta[]>(this.baseUrl);
+    return this.http.get<TemaFesta[]>(this.API);
   }
 
-  // Buscar tema por ID
   buscarPorId(id: number): Observable<TemaFesta> {
-    return this.http.get<TemaFesta>(`${this.baseUrl}/${id}`);
+    return this.http.get<TemaFesta>(this.API + '/' + id);
   }
 
-  // Salvar tema
   salvar(tema: TemaFestaRequest): Observable<TemaFesta> {
-    return this.http.post<TemaFesta>(this.baseUrl, tema);
+    return this.http.post<TemaFesta>(this.API, tema);
   }
 
-  // Atualizar tema
   atualizar(id: number, tema: TemaFestaRequest): Observable<TemaFesta> {
-    return this.http.put<TemaFesta>(`${this.baseUrl}/${id}`, tema);
+    return this.http.put<TemaFesta>(this.API + '/' + id, tema);
   }
 
-  // Excluir tema
   excluir(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(this.API + '/' + id);
   }
 
-  // Buscar temas
   buscar(nome?: string): Observable<TemaFesta[]> {
-    const params = nome ? `?nome=${nome}` : '';
-    return this.http.get<TemaFesta[]>(`${this.baseUrl}/buscar${params}`);
+    const params = nome ? '?nome=' + nome : '';
+    return this.http.get<TemaFesta[]>(this.API + '/buscar' + params);
   }
 
-  // Buscar temas ativos
   buscarAtivos(): Observable<TemaFesta[]> {
-    return this.http.get<TemaFesta[]>(`${this.baseUrl}/ativos`);
+    return this.http.get<TemaFesta[]>(this.API + '/ativos');
   }
 }

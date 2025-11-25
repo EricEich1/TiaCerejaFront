@@ -1,0 +1,18 @@
+<div class="toast-container">
+  <div 
+    *ngFor="let notification of notifications" 
+    class="toast toast-{{ notification.type }}"
+    (click)="remove(notification.id)">
+    <div class="toast-icon">
+      <i class="fas" [ngClass]="getIcon(notification.type)"></i>
+    </div>
+    <div class="toast-content">
+      <div class="toast-title">{{ notification.title }}</div>
+      <div class="toast-message" *ngIf="notification.message">{{ notification.message }}</div>
+    </div>
+    <button class="toast-close" (click)="remove(notification.id); $event.stopPropagation()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
+

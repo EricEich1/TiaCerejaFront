@@ -2,49 +2,42 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Endereco, EnderecoRequest } from '../models/endereco.model';
-import { API_CONFIG } from '../shared/api.config';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EnderecoService {
-  private readonly baseUrl = `${API_CONFIG.baseUrl}/api/enderecos`;
+  API = environment.SERVIDOR + '/api/enderecos';
 
   constructor(private http: HttpClient) { }
 
-  // Buscar todos os endereços
   buscarTodos(): Observable<Endereco[]> {
-    return this.http.get<Endereco[]>(this.baseUrl);
+    return this.http.get<Endereco[]>(this.API);
   }
 
-  // Buscar endereço por ID
   buscarPorId(id: number): Observable<Endereco> {
-    return this.http.get<Endereco>(`${this.baseUrl}/${id}`);
+    return this.http.get<Endereco>(this.API + '/' + id);
   }
 
-  // Salvar endereço
   salvar(endereco: EnderecoRequest): Observable<Endereco> {
     console.log('Enviando endereço:', endereco);
-    return this.http.post<Endereco>(this.baseUrl, endereco);
+    return this.http.post<Endereco>(this.API, endereco);
   }
 
-  // Atualizar endereço
   atualizar(id: number, endereco: EnderecoRequest): Observable<Endereco> {
-    return this.http.put<Endereco>(`${this.baseUrl}/${id}`, endereco);
+    return this.http.put<Endereco>(this.API + '/' + id, endereco);
   }
 
-  // Excluir endereço
   excluir(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(this.API + '/' + id);
   }
 
-  // Buscar por cidade
   buscarPorCidade(cidade: string): Observable<Endereco[]> {
-    return this.http.get<Endereco[]>(`${this.baseUrl}/cidade?cidade=${cidade}`);
+    return this.http.get<Endereco[]>(this.API + '/cidade?cidade=' + cidade);
   }
 
-  // Buscar por estado
   buscarPorEstado(estado: string): Observable<Endereco[]> {
-    return this.http.get<Endereco[]>(`${this.baseUrl}/estado/${estado}`);
+    return this.http.get<Endereco[]>(this.API + '/estado/' + estado);
   }
 }

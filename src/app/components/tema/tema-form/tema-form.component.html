@@ -1,12 +1,14 @@
 <div class="tema-form-container fade-in">
   <div class="tema-form-header">
-    <h1 class="tema-form-title">
-      <i class="fas fa-palette me-3"></i>
-      {{ isEdit ? 'Editar Tema' : 'Novo Tema' }}
-    </h1>
-    <p class="tema-form-subtitle">
-      {{ isEdit ? 'Atualize as informações do tema' : 'Preencha os dados do novo tema' }}
-    </p>
+    <div>
+      <h1 class="tema-form-title">
+        <i class="fas fa-palette"></i>
+        {{ isEdit ? 'Editar Tema' : 'Novo Tema' }}
+      </h1>
+      <p class="tema-form-subtitle">
+        {{ isEdit ? 'Atualize as informações do tema' : 'Preencha os dados do novo tema' }}
+      </p>
+    </div>
   </div>
 
   <div class="tema-form-content">
@@ -72,22 +74,26 @@
               <i class="fas fa-paint-brush me-2"></i>
               Cor Principal *
             </label>
-            <div class="input-group">
+            <div class="color-input-wrapper">
               <input
                 type="color"
                 id="corPrincipal"
-                class="form-control form-control-color"
+                class="color-picker"
                 [(ngModel)]="tema.corPrincipal"
                 name="corPrincipal"
                 required
+                (input)="onColorChange()"
               >
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="tema.corPrincipal"
-                placeholder="#667eea"
-                readonly
-              >
+              <div class="color-display">
+                <div class="color-preview" [style.background-color]="tema.corPrincipal"></div>
+                <input
+                  type="text"
+                  class="color-input"
+                  [(ngModel)]="tema.corPrincipal"
+                  placeholder="#667eea"
+                  name="corPrincipalText"
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -98,22 +104,42 @@
               <i class="fas fa-paint-brush me-2"></i>
               Cor Secundária
             </label>
-            <div class="input-group">
+            <div class="color-input-wrapper">
               <input
                 type="color"
                 id="corSecundaria"
-                class="form-control form-control-color"
+                class="color-picker"
                 [(ngModel)]="tema.corSecundaria"
                 name="corSecundaria"
+                (input)="onColorChange()"
               >
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="tema.corSecundaria"
-                placeholder="#764ba2"
-                readonly
-              >
+              <div class="color-display">
+                <div class="color-preview" [style.background-color]="tema.corSecundaria || tema.corPrincipal || '#764ba2'"></div>
+                <input
+                  type="text"
+                  class="color-input"
+                  [(ngModel)]="tema.corSecundaria"
+                  placeholder="#764ba2 (opcional)"
+                  name="corSecundariaText"
+                >
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview do Tema -->
+      <div class="preview-section">
+        <label class="form-label">
+          <i class="fas fa-eye me-2"></i>
+          Preview do Tema
+        </label>
+        <div class="theme-preview" [style.background]="'linear-gradient(135deg, ' + tema.corPrincipal + ' 0%, ' + (tema.corSecundaria || tema.corPrincipal) + ' 100%)'">
+          <div class="preview-content">
+            <i class="fas fa-palette preview-icon-large"></i>
+            <h3 class="preview-name">{{ tema.nome || 'Nome do Tema' }}</h3>
+            <p class="preview-desc" *ngIf="tema.descricao">{{ tema.descricao }}</p>
+            <p class="preview-desc-placeholder" *ngIf="!tema.descricao">Descrição do tema aparecerá aqui</p>
           </div>
         </div>
       </div>

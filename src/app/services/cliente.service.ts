@@ -2,55 +2,47 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cliente } from '../models/cliente.model';
-import { API_CONFIG } from '../shared/api.config';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
-  private readonly baseUrl = `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.clientes}`;
+  API = environment.SERVIDOR + '/api/clientes';
 
   constructor(private http: HttpClient) { }
 
-  // Buscar todos os clientes
   buscarTodos(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(this.baseUrl);
+    return this.http.get<Cliente[]>(this.API);
   }
 
-  // Buscar cliente por ID
   buscarPorId(id: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.baseUrl}/${id}`);
+    return this.http.get<Cliente>(this.API + '/' + id);
   }
 
-  // Salvar novo cliente
   salvar(cliente: Cliente): Observable<Cliente> {
-    return this.http.post<Cliente>(this.baseUrl, cliente);
+    return this.http.post<Cliente>(this.API, cliente);
   }
 
-  // Atualizar cliente
   atualizar(id: number, cliente: Cliente): Observable<Cliente> {
-    return this.http.put<Cliente>(`${this.baseUrl}/${id}`, cliente);
+    return this.http.put<Cliente>(this.API + '/' + id, cliente);
   }
 
-  // Deletar cliente
   deletar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(this.API + '/' + id);
   }
 
-  // Buscar clientes por nome
   buscarPorNome(nome: string): Observable<Cliente[]> {
     const params = new HttpParams().set('nome', nome);
-    return this.http.get<Cliente[]>(`${this.baseUrl}/buscar`, { params });
+    return this.http.get<Cliente[]>(this.API + '/buscar', { params });
   }
 
-  // Buscar cliente por telefone
   buscarPorTelefone(telefone: string): Observable<Cliente[]> {
     const params = new HttpParams().set('telefone', telefone);
-    return this.http.get<Cliente[]>(`${this.baseUrl}/telefone`, { params });
+    return this.http.get<Cliente[]>(this.API + '/telefone', { params });
   }
 
-  // Buscar clientes por status
   buscarPorStatus(status: string): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(`${this.baseUrl}/status/${status}`);
+    return this.http.get<Cliente[]>(this.API + '/status/' + status);
   }
 }
