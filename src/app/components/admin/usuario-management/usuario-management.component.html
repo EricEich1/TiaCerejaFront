@@ -1,0 +1,70 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Gerenciamento de Usuários</h2>
+    <button class="btn btn-outline-primary" (click)="carregarUsuarios()" [disabled]="loading">
+      <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i> Atualizar
+    </button>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light">
+            <tr>
+              <th scope="col" class="ps-4">ID</th>
+              <th scope="col">Email</th>
+              <th scope="col">Permissões (Roles)</th>
+              <th scope="col" class="text-end pe-4">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usuario of usuarios">
+              <td class="ps-4 text-muted">#{{ usuario.id }}</td>
+              <td class="fw-medium">{{ usuario.email }}</td>
+              <td>
+                <div class="d-flex gap-1 flex-wrap">
+                  <span *ngFor="let role of usuario.roles" 
+                        class="badge rounded-pill"
+                        [ngClass]="{
+                          'bg-danger': role === 'ROLE_ADMIN' || role === 'ADMIN',
+                          'bg-primary': role === 'ROLE_USER' || role === 'USER',
+                          'bg-secondary': role !== 'ROLE_ADMIN' && role !== 'ADMIN' && role !== 'ROLE_USER' && role !== 'USER'
+                        }">
+                    {{ role }}
+                  </span>
+                </div>
+              </td>
+              <td class="text-end pe-4">
+                <button *ngIf="!hasAdminRole(usuario.roles)" 
+                        class="btn btn-sm btn-success d-inline-flex align-items-center gap-2"
+                        (click)="promoverAdmin(usuario)"
+                        [disabled]="loading">
+                  <i class="fas fa-arrow-up"></i> Promover a Admin
+                </button>
+
+                <button *ngIf="hasAdminRole(usuario.roles)" 
+                        class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-2"
+                        (click)="removerAdmin(usuario)"
+                        [disabled]="loading">
+                  <i class="fas fa-arrow-down"></i> Remover Admin
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="usuarios.length === 0 && !loading">
+              <td colspan="4" class="text-center py-4 text-muted">
+                Nenhum usuário encontrado.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="loading" class="text-center mt-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+  </div>
+</div>

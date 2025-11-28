@@ -35,39 +35,33 @@
             Temas
           </a>
         </li>
+
+        <!-- Link Admin (Visível apenas para ROLE_ADMIN) -->
+        <li class="nav-item me-3" *ngIf="isAdmin()">
+          <a class="nav-link text-danger fw-bold" routerLink="/admin/usuarios" routerLinkActive="active">
+            <i class="fas fa-user-shield me-1"></i>
+            Administração
+          </a>
+        </li>
       </ul>
 
       <!-- Barra de Busca -->
       <div class="search-container" *ngIf="isLoggedIn">
         <div class="search-wrapper">
           <i class="fas fa-search search-icon"></i>
-          <input 
-            type="text" 
-            class="search-input" 
-            [(ngModel)]="termoBusca"
-            (input)="onBuscaChange()"
-            (focus)="onBuscaFocus()"
-            (blur)="onBuscaBlur()"
-            placeholder="Buscar clientes, temas..."
-            autocomplete="off">
-          <button 
-            class="search-clear" 
-            *ngIf="termoBusca"
-            (click)="limparBusca()"
-            type="button">
+          <input type="text" class="search-input" [(ngModel)]="termoBusca" (input)="onBuscaChange()"
+            (focus)="onBuscaFocus()" (blur)="onBuscaBlur()" placeholder="Buscar clientes, temas..." autocomplete="off">
+          <button class="search-clear" *ngIf="termoBusca" (click)="limparBusca()" type="button">
             <i class="fas fa-times"></i>
           </button>
           <div class="search-spinner" *ngIf="buscando">
             <i class="fas fa-spinner fa-spin"></i>
           </div>
         </div>
-        
+
         <!-- Dropdown de Resultados -->
         <div class="search-results" *ngIf="mostrarResultados && resultados.length > 0">
-          <div 
-            class="search-result-item" 
-            *ngFor="let resultado of resultados"
-            (click)="selecionarResultado(resultado)">
+          <div class="search-result-item" *ngFor="let resultado of resultados" (click)="selecionarResultado(resultado)">
             <div class="result-icon">
               <i class="fas" [ngClass]="resultado.tipo === 'cliente' ? 'fa-user' : 'fa-palette'"></i>
             </div>
@@ -82,8 +76,9 @@
             </div>
           </div>
         </div>
-        
-        <div class="search-results search-empty" *ngIf="mostrarResultados && resultados.length === 0 && !buscando && termoBusca.length >= 2">
+
+        <div class="search-results search-empty"
+          *ngIf="mostrarResultados && resultados.length === 0 && !buscando && termoBusca.length >= 2">
           <div class="search-empty-message">
             <i class="fas fa-search"></i>
             <p>Nenhum resultado encontrado</p>
@@ -93,9 +88,8 @@
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown" *ngIf="isLoggedIn">
-          <a class="nav-link dropdown-toggle" role="button" 
-             data-bs-toggle="dropdown" aria-expanded="false" 
-             (click)="$event.preventDefault()">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+            (click)="$event.preventDefault()">
             <i class="fas fa-user me-1"></i>
             <span class="user-name">{{ getUserDisplayName() }}</span>
           </a>
@@ -106,10 +100,16 @@
                 <small class="text-muted">{{ currentUser?.email }}</small>
               </div>
             </li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" (click)="$event.preventDefault()"><i class="fas fa-user me-2"></i>Perfil</a></li>
-            <li><a class="dropdown-item" (click)="$event.preventDefault()"><i class="fas fa-cog me-2"></i>Configurações</a></li>
-            <li><hr class="dropdown-divider"></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" (click)="$event.preventDefault()"><i class="fas fa-user me-2"></i>Perfil</a>
+            </li>
+            <li><a class="dropdown-item" (click)="$event.preventDefault()"><i
+                  class="fas fa-cog me-2"></i>Configurações</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
             <li><a class="dropdown-item text-danger" (click)="logout(); $event.preventDefault()"><i
                   class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
           </ul>

@@ -16,10 +16,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  
+
   isLoggedIn = false;
   currentUser: Usuario | null = null;
-  
+
   // Busca
   termoBusca = '';
   resultados: ResultadoBusca[] = [];
@@ -31,7 +31,7 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     public authService: AuthService,
     private buscaService: BuscaService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Escuta as mudanças no status de login
@@ -77,9 +77,15 @@ export class NavbarComponent implements OnInit {
   // Método para obter o nome de exibição do usuário
   getUserDisplayName(): string {
     if (!this.currentUser) return 'Usuário Logado';
-    
+
     // Prioriza o nome se disponível, senão usa o email
     return this.currentUser.nome || this.currentUser.email || 'Usuário Logado';
+  }
+
+  // Verifica se o usuário tem permissão de admin
+  isAdmin(): boolean {
+    if (!this.currentUser || !this.currentUser.roles) return false;
+    return this.currentUser.roles.some(role => role === 'ROLE_ADMIN' || role === 'ADMIN');
   }
 
   onBuscaChange() {

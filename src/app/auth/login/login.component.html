@@ -1,15 +1,36 @@
 
-
-
 <div class="login-container">
-  <div class="login-card scale-up">
+  <div class="login-card scale-up" [class.register-mode]="isRegisterMode">
     <div class="login-header">
       <i class="fas fa-birthday-cake login-icon"></i>
       <h1 class="login-title">Tia Cereja</h1>
-      <p class="login-subtitle">Sistema de Gestão de Festas</p>
+      <p class="login-subtitle">{{ isRegisterMode ? 'Criar Nova Conta' : 'Sistema de Gestão de Festas' }}</p>
     </div>
     
-    <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm">
+    <div class="mode-toggle">
+      <button 
+        type="button" 
+        class="toggle-btn"
+        [class.active]="!isRegisterMode"
+        (click)="toggleMode()">
+        <i class="fas fa-sign-in-alt"></i>
+        Entrar
+      </button>
+      <button 
+        type="button" 
+        class="toggle-btn"
+        [class.active]="isRegisterMode"
+        (click)="toggleMode()">
+        <i class="fas fa-user-plus"></i>
+        Criar Conta
+      </button>
+    </div>
+
+    <form 
+      class="login-form" 
+      [class.hidden]="isRegisterMode"
+      (ngSubmit)="login()" 
+      #loginForm="ngForm">
       <div class="form-group">
         <label for="email" class="form-label">
           <i class="fas fa-envelope me-2"></i>
@@ -55,11 +76,93 @@
         </span>
       </button>
     </form>
+
+    <form 
+      class="register-form" 
+      [class.hidden]="!isRegisterMode"
+      (ngSubmit)="register()" 
+      #registerForm="ngForm">
+      <div class="form-group">
+        <label for="register-nome" class="form-label">
+          <i class="fas fa-user me-2"></i>
+          Nome Completo
+        </label>
+        <input 
+          type="text" 
+          id="register-nome" 
+          class="form-control" 
+          [(ngModel)]="registerData.nome" 
+          name="nome"
+          required
+          placeholder="Digite seu nome completo">
+      </div>
+
+      <div class="form-group">
+        <label for="register-email" class="form-label">
+          <i class="fas fa-envelope me-2"></i>
+          Email
+        </label>
+        <input 
+          type="email" 
+          id="register-email" 
+          class="form-control" 
+          [(ngModel)]="registerData.email" 
+          name="email"
+          required
+          email
+          placeholder="Digite seu email">
+      </div>
+      
+      <div class="form-group">
+        <label for="register-senha" class="form-label">
+          <i class="fas fa-lock me-2"></i>
+          Senha
+        </label>
+        <input 
+          type="password" 
+          id="register-senha" 
+          class="form-control" 
+          [(ngModel)]="registerData.senha" 
+          name="senha"
+          required
+          minlength="6"
+          placeholder="Digite sua senha (mín. 6 caracteres)">
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-senha" class="form-label">
+          <i class="fas fa-lock me-2"></i>
+          Confirmar Senha
+        </label>
+        <input 
+          type="password" 
+          id="confirm-senha" 
+          class="form-control" 
+          [(ngModel)]="confirmPassword" 
+          name="confirmPassword"
+          required
+          placeholder="Confirme sua senha">
+      </div>
+      
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-login"
+        [disabled]="registerForm.invalid || loading">
+        <span *ngIf="!loading">
+          <i class="fas fa-user-plus me-2"></i>
+          Criar Conta
+        </span>
+        <span *ngIf="loading">
+          <i class="fas fa-spinner fa-spin me-2"></i>
+          Criando...
+        </span>
+      </button>
+    </form>
     
     <div class="login-footer">
       <p class="text-muted">
         <i class="fas fa-info-circle me-1"></i>
-        Entre com suas credenciais para acessar o sistema
+        {{ isRegisterMode ? 'Preencha os dados para criar sua conta' : 'Entre com suas credenciais para acessar o sistema' }}
       </p>
     </div>
   </div>

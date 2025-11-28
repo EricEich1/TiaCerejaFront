@@ -3,6 +3,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './shared/layout/layout.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   // Rota de login (pública)
@@ -36,8 +37,12 @@ export const routes: Routes = [
       {
         path: 'temas',
         loadChildren: () => import('./components/tema/tema.routes').then(m => m.temaRoutes)
+      },
+      {
+        path: 'admin',
+        canActivate: [AdminGuard],
+        loadChildren: () => import('./components/admin/admin.routes').then(m => m.adminRoutes)
       }
-      // TODO: Adicionar outras rotas quando os componentes estiverem prontos
       // {
       //   path: 'solicitacoes',
       //   loadChildren: () => import('./components/solicitacao/solicitacao.routes').then(m => m.solicitacaoRoutes)
